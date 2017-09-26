@@ -130,9 +130,10 @@ BOOL handlingRedirectURL;
     return !handlingRedirectURL;
 }
 
-- (NSString *)extractGetParameter: (NSString *) parameterName fromURL:(NSURL *)url {
+- (NSString *)extractGetParameter: (NSString *) parameterName fromURLString:(NSString *)urlString {
     NSMutableDictionary *mdQueryStrings = [[NSMutableDictionary alloc] init];
-    NSString *urlString = url.query;
+    urlString = [[urlString componentsSeparatedByString:@"#"] objectAtIndex:0];
+    urlString = [[urlString componentsSeparatedByString:@"?"] objectAtIndex:1];
     for (NSString *qs in [urlString componentsSeparatedByString:@"&"]) {
         [mdQueryStrings setValue:[[[[qs componentsSeparatedByString:@"="] objectAtIndex:1]
                 stringByReplacingOccurrencesOfString:@"+" withString:@" "]
