@@ -107,7 +107,7 @@ BOOL handlingRedirectURL;
             if (accessDenied) {
                 self.cancelCallback();
             } else {
-                NSString* errorDescription = [self extractGetParameter:@"error_description" fromURL:requestURL];
+                NSString* errorDescription = [self extractGetParameter:@"error_description" fromURLString:requestURL];
                 NSError *error = [[NSError alloc] initWithDomain:kLinkedInErrorDomain
                                                             code:1
                                                         userInfo:@{
@@ -115,11 +115,11 @@ BOOL handlingRedirectURL;
                 self.failureCallback(error);
             }
         } else {
-            NSString *receivedState = [self extractGetParameter:@"state" fromURL: requestURL];
+            NSString *receivedState = [self extractGetParameter:@"state" fromURLString: requestURL];
             //assert that the state is as we expected it to be
             if ([receivedState isEqualToString:self.application.state]) {
                 //extract the code from the url
-                NSString *authorizationCode = [self extractGetParameter:@"code" fromURL: requestURL];
+                NSString *authorizationCode = [self extractGetParameter:@"code" fromURLString: requestURL];
                 self.successCallback(authorizationCode);
             } else {
                 NSError *error = [[NSError alloc] initWithDomain:kLinkedInErrorDomain code:2 userInfo:[[NSMutableDictionary alloc] init]];
